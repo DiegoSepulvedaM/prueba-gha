@@ -36,7 +36,7 @@
                 uses: steebchen/kubectl@v2.1.1
                 with:
                   config: ${{ secrets.KUBE_CONFIG_DATA }}
-                  command: -n prueba set image --record deployment/prueba-gha prueba-gha=pablokbs/prueba-gha:${{ github.sha }}
+                  command: -n prueba set image --record deployment/prueba-gha2 prueba-gha2=diegosepu/prueba-gha2:${{ github.sha }}
               -
                 name: kubectl-simple
                 uses: steebchen/kubectl@v2.1.1
@@ -45,4 +45,4 @@
                   KUBECTL_VERSION: "1.28"
                 with:
                   config: ${{ secrets.KUBE_CONFIG_DATA }}
-                  command: -n prueba rollout status deployment/prueba-gha
+                  command: -n prueba rollout status deployment/prueba-gha2
