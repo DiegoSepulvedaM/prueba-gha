@@ -1,9 +1,8 @@
   on:
     push:
-      branches-ignore:
-      - master
-  
-  name: CI
+      branches:
+        - master
+  name: CD
   jobs:
     docker:
       runs-on: ubuntu-latest
@@ -21,8 +20,8 @@
             username: ${{ secrets.DOCKER_USERNAME }}
             password: ${{ secrets.DOCKER_PASSWORD }}
         -
-          name: Build and (not) push
+          name: Build and push
           uses: docker/build-push-action@v5
           with:
-            push: false
-            tags: diegosepu/prueba-gha2:${{ github.sha }}
+            push: true
+            tags: pablokbs/prueba-gha:${{ github.sha }}
