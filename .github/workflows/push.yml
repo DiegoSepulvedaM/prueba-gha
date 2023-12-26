@@ -24,4 +24,4 @@
           uses: docker/build-push-action@v5
           with:
             push: true
-            tags: pablokbs/prueba-gha:${{ github.sha }}
+            tags: DiegoSepulvedaM/prueba-gha2:${{ github.sha }}
