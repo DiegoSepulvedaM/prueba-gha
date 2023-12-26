@@ -39,7 +39,7 @@
                     uses: qgxpagamentos/kubectl-set@v1
                     with:
                       base64-kube-config: ${{ secrets.KUBE_CONFIG_DATA }}
-                      kubectl-version: v1.22.5
+                      kubectl-version: v1.28.5
             
                   - name: Deploy Kubernetes cluster Service/Deployment
                     run: |
