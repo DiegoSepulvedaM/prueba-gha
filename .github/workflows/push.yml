@@ -26,7 +26,7 @@
             push: true
             tags: diegosepu/prueba-gha2:${{ github.sha }}
 
-    deploy:
+    deploy-to-cluster:
                 name: deploy to cluster
                 runs-on: ubuntu-latest
                 steps:
