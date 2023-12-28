@@ -26,7 +26,7 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           push: true
-          tags: diego/prueba-gha2:${{ github.sha }}
+          tags: diegosepu/prueba-gha2:${{ github.sha }}
 
   deploy-to-cluster:
     name: deploy to cluster
