@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: prueba-gha2
+spec:
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: http
+  selector:
+    name: prueba-gha2
+  type: LoadBalancer
