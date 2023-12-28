@@ -1,19 +1,21 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  labels:
   name: prueba-gha2
 spec:
   replicas: 3
   selector:
     matchLabels:
-      app: your-app
+      name: prueba-gha2
   template:
     metadata:
       labels:
-        app: your-app
+        name: prueba-gha2
     spec:
       containers:
       - name: prueba-gha2
-        image: diegosepu/prueba-gha2:latest
+        image: diegosepu/prueba-gha2
         ports:
         - containerPort: 80
+          name: http
