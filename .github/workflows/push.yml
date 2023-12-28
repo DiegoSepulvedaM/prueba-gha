@@ -1,25 +1,33 @@
-on: push
-name: deploy
+on:
+  push:
+    branches:
+      - master
+
+name: CD
+
 jobs:
-  deploy:
-    
-    name: kubectl-simple
+  build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@master
-    - name: Print kubectl config
-      run: kubectl config view
-      env:
-        KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
-    - name: kubectl-simple
-      uses: steebchen/kubectl@v2.1.1
-      with: # defaults to latest kubectl binary version
-        config: ${{ secrets.KUBE_CONFIG_DATA }}
-        command: set image --record deployment/prueba-gha2=${{ github.repository }}:${{ github.sha }}
-    - name: verify deployment
-      uses: steebchen/kubectl@v2.1.1
-      with:
-        config: ${{ secrets.KUBE_CONFIG_DATA }}
-        version: v1.28.5 # specify kubectl binary version explicitly
-        binaries-url: "https://dl.k8s.io/release/v1.21.0/bin/linux/amd64/kubectl" # specify the download url explicitly
-        command: rollout status deployment/prueba-gha2
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Build
+        run: echo "Building..."
+
+  deploy-to-cluster:
+    name: kubectl-simple
+    runs-on: ubuntu-latest
+    needs: build  # Este trabajo depende del trabajo 'build'
+    steps:
+      - name: kubectl-simple
+        uses: steebchen/kubectl@v2.1.1
+        with:
+          config: ${{ secrets.KUBE_CONFIG_DATA }}
+          version: v1.28.5
+          command: set image --record deployment/prueba-gha2 diegosepu/prueba-gha2:7f4dff41f70c8d67e069bdd0a12799c64ec8172b
+      - name: verify deployment
+        uses: steebchen/kubectl@v2.1.1
+        with:
+          config: ${{ secrets.KUBE_CONFIG_DATA }}
+          version: v1.28.5
+          command: rollout status deployment/prueba-gha2
