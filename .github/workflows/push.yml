@@ -11,7 +11,7 @@ jobs:
       env:
         KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
       with:
-        args: set image --record deployment/prueba-gha2=${{ github.repository }}:${{ github.sha }}
+        args: set image deployment/prueba-gha2=${{ github.repository }}:${{ github.sha }}
     - name: verify deployment
       uses: sidhusmart/kubectl@master
       env:
