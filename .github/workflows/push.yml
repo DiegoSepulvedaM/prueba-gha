@@ -1,12 +1,16 @@
-
 on: push
 name: deploy
 jobs:
   deploy:
+    
     name: kubectl-simple
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@master
+    - name: Print kubectl config
+      run: kubectl config view
+      env:
+        KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
     - name: kubectl-simple
       uses: steebchen/kubectl@v2.1.1
       with: # defaults to latest kubectl binary version
