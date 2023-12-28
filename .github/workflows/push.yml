@@ -1,21 +1,33 @@
-on: push
-name: deploy
+on:
+  push:
+    branches:
+      - master
+
+name: CD
+
 jobs:
-  deploy:
-    name: deploy to cluster
+  deploy-to-cluster:
+    name: Deploy to Minikube
     runs-on: ubuntu-latest
+
     steps:
-    - uses: actions/checkout@master
-    - name: deploy to cluster
-      uses: sidhusmart/kubectl@master
-      env:
-        KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Minikube
+      uses: steebchen/kubectl@v2.0.0
       with:
-        args: set image deployment/prueba-gha2=${{ github.repository }}:${{ github.sha }}
-    - name: verify deployment
-      uses: sidhusmart/kubectl@master
-      env:
-        KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
-        KUBECTL_VERSION: "1.28"
+        config: ${{ secrets.KUBE_CONFIG_DATA }}
+        command: config
+
+    - name: Apply Kubernetes manifests
+      uses: steebchen/kubectl@v2.0.0
       with:
-        args: '"rollout status deployment/prueba-gha2"'
+        config: ${{ secrets.KUBE_CONFIG_DATA }}
+        command: apply -f /home/diego/CI
+
+    - name: Verify deployment
+      uses: steebchen/kubectl@v2.0.0
+      with:
+        config: ${{ secrets.KUBE_CONFIG_DATA }}
+        command: -n prueba-gha2 rollout status deployment/prueba-gha2
