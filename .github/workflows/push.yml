@@ -43,7 +43,7 @@ jobs:
               uses: steebchen/kubectl@v2.1.1
               env:
                 KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
-                KUBECTL_VERSION: "1.28.5"
+                KUBECTL_VERSION: "1.28"
               with:
                 config: ${{ secrets.KUBE_CONFIG_DATA }}
                 command: -n prueba rollout status deployment/prueba-gha2
